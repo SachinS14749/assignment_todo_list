@@ -7,9 +7,14 @@ import 'package:assignment_todo_list/features/todos/presentation/widgets/todo_li
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TodoListScreen extends StatelessWidget {
+class TodoListScreen extends StatefulWidget {
   const TodoListScreen({super.key});
 
+  @override
+  State<TodoListScreen> createState() => _TodoListScreenState();
+}
+
+class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,16 +52,23 @@ class TodoListScreen extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Failed to fetch Todo list'),
-                        ElevatedButton(
+                        const Text('Something went wrong', style: TextStyle(
+                          fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 10,),
+                        const Text('Give it another try', style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold)),
+                        TextButton(
                             onPressed: () {
                               context.read<TodoBloc>().add(FetchTodoEvent());
                             },
-                            style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.blueAccent)),
                             child: const Text(
-                              'Retry',
+                              'RELOAD',
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.blueAccent,
+                                  backgroundColor: Colors.transparent,
                                   fontWeight: FontWeight.bold),
                             ))
                       ],

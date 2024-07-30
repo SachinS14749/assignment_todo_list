@@ -15,7 +15,7 @@ class TodoRepository extends ITodoRepository {
 
   @override
   Future<Todo> addTodo(Todo todoItem) {
-    final TodoModel todoModel = TodoModel(userId: todoItem.userId, id: todoItem.id, title: todoItem.title, completed: todoItem.completed);
+    final TodoModel todoModel = TodoModel(userId: todoItem.userId, title: todoItem.title, completed: todoItem.completed);
     return _todoApiProvider.addTodo(todoModel);
   }
 
