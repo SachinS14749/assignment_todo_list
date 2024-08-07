@@ -78,12 +78,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
               ),
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
+        ));
+       /* floatingActionButton: FloatingActionButton(
           onPressed: () {
             // context.read<TodoBloc>().add(AddTodoEvent(todoModel));
           },
           child: const Icon(Icons.add),
-        ));
+        ));*/
   }
 }

@@ -5,44 +5,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TodoEntry extends StatelessWidget {
-  TodoEntry({super.key});
+
+  final PersistentBottomSheetController? bottomSheetController;
+  TodoEntry( this.bottomSheetController);
 
   final TextEditingController _todoController = TextEditingController();
-
-  bool inputVisibility = false;
-
   @override
   Widget build(BuildContext context) {
-    return inputVisibility
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _todoController,
-                  decoration: const InputDecoration(labelText: 'Todo'),
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          TextField(
+            controller: _todoController,
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)), // Rounded corners
+                  borderSide: BorderSide(
+                    color: Colors.blue, // Border color
+                    width: 2.0, // Border width
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    final todoText = _todoController.text;
-                    if (todoText.isNotEmpty) {
-                      final todoModel = TodoModel(
-                          userId: 1,
-                          title: todoText,
-                          completed: false); // id will be set by the server
-                      context.read<TodoBloc>().add(AddTodoEvent(todoModel));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Please enter todo')));
-                    }
-                  },
-                  child: const Text('Add'),
-                ),
-              ],
+                labelText: 'Todo'),
+
+          ),
+          SizedBox(height: 15,),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Background color
             ),
-          )
-        : SizedBox(
-            height: 1,
-          );
+            onPressed: () {
+              final todoText = _todoController.text;
+              if (todoText.isNotEmpty) {
+                final todoModel = TodoModel(
+                    userId: 1,
+                    title: todoText,
+                    completed: false); // id will be set by the server
+                context.read<TodoBloc>().add(AddTodoEvent(todoModel));
+                bottomSheetController?.close();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please enter todo')));
+              }
+            },
+            child: const Text('Add',style: TextStyle(color: Colors.white),),
+          ),
+        ],
+      ),
+    );
   }
 }

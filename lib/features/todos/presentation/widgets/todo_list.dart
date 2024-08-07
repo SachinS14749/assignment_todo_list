@@ -19,19 +19,18 @@ class _TodoListState extends State<TodoList> {
   @override
   Widget build(BuildContext context) {
     String taskStatus;
-
-    return SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Column(children: [
-          /*buttonVisibility ? AddTodoButton(click: (){
-              setState(() {
-                buttonVisibility = false;
-              });
-          }) : SizedBox(height: 1,) ,*/
-          buttonVisibility ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
+    return Scaffold(
+      body: Column(
+          children: [
+        buttonVisibility ?
+        Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      bottomSheet();
                       buttonVisibility = false;
                     });
                   },
@@ -41,10 +40,13 @@ class _TodoListState extends State<TodoList> {
                     'Add Todo',
                     style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  ))
-            ]): const SizedBox(height: 1,),
-          ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
+                  )),
+            )
+          ]): const SizedBox(),
+
+       SizedBox(height: 15.0,),
+        Expanded(
+          child: ListView.builder(
             shrinkWrap: true,
             itemCount: widget.todoList.length,
             itemBuilder: (context, index) {
@@ -73,7 +75,22 @@ class _TodoListState extends State<TodoList> {
               );
             },
           ),
-          TodoEntry(),
-        ]));
+        ),
+      ]),
+    );
   }
+
+   PersistentBottomSheetController bottomSheet(){
+     PersistentBottomSheetController? bottomSheetController;
+    return bottomSheetController =  Scaffold.of(context).showBottomSheet((context) {
+        return Container(
+          color: Colors.white10,
+          height: 170,
+          child: Center(
+            child: TodoEntry(bottomSheetController)
+          ),
+        );
+      },
+    );
+   }
 }
